@@ -9,11 +9,11 @@ const config = {
   tagline: '一门基于 YAML 的声明式 UI 与数据交互语言',
   favicon: 'img/logo1.png',
 
-  url: 'https://github.com/xYuan20d/Yuml-docs', // ← 记得改成你的 GitHub Pages 地址
-  baseUrl: '/',                      // ← 如果你部署在子路径，改成 '/yuml-docs/' 之类的
+  url: 'https://xYuan20d.github.io',  // ✅ 只写主域名
+  baseUrl: '/',                       // ✅ 根路径：部署到 xYuan20d.github.io 本身
 
-  organizationName: 'xYuan20d',     // ← GitHub 用户名
-  projectName: 'xYuan20d.github.io',         // ← GitHub 仓库名
+  organizationName: 'xYuan20d',       // ✅ GitHub 用户名
+  projectName: 'xYuan20d.github.io',  // ✅ 仓库名必须是这个（用户主页仓库）
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -49,7 +49,7 @@ const config = {
         title: 'Yuml',
         logo: {
           alt: 'Yuml Logo',
-          src: 'img/logo1.png',
+          src: '/img/logo1.png',
         },
         items: [
           {
