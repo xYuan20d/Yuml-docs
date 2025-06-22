@@ -5,6 +5,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  deploymentBranch: "gh-pages",
   title: 'Yuml',
   tagline: '一门基于 YAML 的声明式 UI 与数据交互语言',
   favicon: 'img/logo1.png',
