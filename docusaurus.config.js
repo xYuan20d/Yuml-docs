@@ -9,11 +9,11 @@ const config = {
   tagline: '一门基于 YAML 的声明式 UI 与数据交互语言',
   favicon: 'img/logo1.png',
 
-  url: 'https://你的用户名.github.io', // ← 记得改成你的 GitHub Pages 地址
+  url: 'https://github.com/xYuan20d/Yuml-docs', // ← 记得改成你的 GitHub Pages 地址
   baseUrl: '/',                      // ← 如果你部署在子路径，改成 '/yuml-docs/' 之类的
 
-  organizationName: '你的用户名',     // ← GitHub 用户名
-  projectName: '你的仓库名',         // ← GitHub 仓库名
+  organizationName: 'xYuan20d',     // ← GitHub 用户名
+  projectName: 'xYuan20d.github.io',         // ← GitHub 仓库名
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -30,7 +30,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/你的用户名/你的仓库名/edit/main/', // 编辑按钮跳转
+          editUrl: 'https://github.com/xYuan20d/Yuml-docs/edit/main/', // 编辑按钮跳转
           routeBasePath: 'docs', // 默认路径是 docs，首页可以是 /docs/intro
         },
         blog: false, // 不启用博客模块
@@ -59,7 +59,7 @@ const config = {
             label: '文档',
           },
           {
-            href: 'https://github.com/你的用户名/你的仓库名',
+            href: 'https://github.com/xYuan20d/Yuml-docs',
             label: 'GitHub',
             position: 'right',
           },
@@ -82,7 +82,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/你的用户名/你的仓库名',
+                href: 'https://github.com/xYuan20d/Yuml-docs',
               },
             ],
           },
