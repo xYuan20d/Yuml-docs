@@ -30,7 +30,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/xYuan20d/Yuml-docs/edit/main/', // 编辑按钮跳转
+          editUrl: 'https://github.com/xYuan20d/xYuan20d.github.io/edit/main/', // 编辑按钮跳转
           routeBasePath: 'docs', // 默认路径是 docs，首页可以是 /docs/intro
         },
         blog: false, // 不启用博客模块
@@ -59,7 +59,7 @@ const config = {
             label: '文档',
           },
           {
-            href: 'https://github.com/xYuan20d/Yuml-docs',
+            href: 'https://github.com/xYuan20d/xYuan20d.github.io',
             label: 'GitHub',
             position: 'right',
           },
@@ -82,7 +82,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/xYuan20d/Yuml-docs',
+                href: 'https://github.com/xYuan20d/xYuan20d.github.io',
               },
             ],
           },
