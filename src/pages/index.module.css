@@ -21,28 +21,9 @@
   align-items: center;
   justify-content: center;
 }
-
 .section {
-  padding: 3rem 1rem;
-  background-color: #f9f9f9;
-  border-top: 1px solid #ddd;
-  text-align: left;
-  line-height: 1.8;
-}
-
-.section h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.section ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.section ul li::before {
-  content: "• ";
-  color: #5c5c5c;
-  font-weight: bold;
-  margin-right: 0.3em;
+  padding: 4rem 0;
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  border-top: 1px solid var(--ifm-color-emphasis-300);
 }

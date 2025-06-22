@@ -32,8 +32,6 @@ export default function Home() {
       description="Yuml 是一门基于 YAML 的声明式 UI 与数据交互语言，支持插件化、元编程、可视化组件，适用于数据可视化与前端开发。">
       <HomepageHeader />
       <main>
-        {/* <HomepageFeatures /> */}
-
         <section className={styles.section}>
           <div className="container">
             <h2>🧠 Yuml 是什么？</h2>
@@ -42,12 +40,13 @@ export default function Home() {
             </p>
             <ul>
               <li>🧩 支持模块化、插件扩展、元素冲突检测机制</li>
+              <li>⚡ 语法极简：无需写 JavaScript 或 HTML</li>
               <li>🪄 原生支持 Python / Lua 脚本嵌入与交互</li>
               <li>🔁 完整控制流：支持 if / for / break / continue</li>
               <li>🎯 元编程 + 数据绑定 + 模板渲染 引擎</li>
             </ul>
             <p style={{ marginTop: '1rem' }}>
-              👉 想了解更多？查看 <a href="/docs/intro">使用文档</a> 或访问 <a href="https://github.com/lvzhiyuan/Yuml-docs" target="_blank">GitHub 仓库</a>
+              👉 想了解更多？查看 <a href="/docs/intro">使用文档</a> 或访问 <a href="https://github.com/lvzhiyuan/Yuml-docs" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
             </p>
           </div>
         </section>

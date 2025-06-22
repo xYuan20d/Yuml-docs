@@ -10,11 +10,13 @@ const config = {
   tagline: '一门基于 YAML 的声明式 UI 与数据交互语言',
   favicon: 'img/logo1.png',
 
-  url: 'https://xYuan20d.github.io',  // ✅ 只写主域名
-  baseUrl: '/',                       // ✅ 根路径：部署到 xYuan20d.github.io 本身
+  // ✅ 修改为你部署文档的最终访问链接（还是放在主页仓库）
+  url: 'https://xYuan20d.github.io',
+  baseUrl: '/', // 不变，因为你还是用 GitHub Pages 主域名部署
 
-  organizationName: 'xYuan20d',       // ✅ GitHub 用户名
-  projectName: 'xYuan20d.github.io',  // ✅ 仓库名必须是这个（用户主页仓库）
+  // ✅ 不变，部署目标是这个仓库
+  organizationName: 'xYuan20d',
+  projectName: 'xYuan20d.github.io',  // 注意：这里是部署目标仓库，而不是源码仓库
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -27,14 +29,16 @@ const config = {
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/xYuan20d/xYuan20d.github.io/edit/main/', // 编辑按钮跳转
-          routeBasePath: 'docs', // 默认路径是 docs，首页可以是 /docs/intro
+
+          // ✅ 这里改为你的源码地址
+          editUrl: 'https://github.com/xYuan20d/Yuml/edit/main/',
+
+          routeBasePath: 'docs',
         },
-        blog: false, // 不启用博客模块
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -42,59 +46,59 @@ const config = {
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      image: 'img/yuml-cover.jpg',
-      navbar: {
-        title: 'Yuml',
-        logo: {
-          alt: 'Yuml Logo',
-          src: '/img/logo1.png',
+  themeConfig: ({
+    image: 'img/yuml-cover.jpg',
+    navbar: {
+      title: 'Yuml',
+      logo: {
+        alt: 'Yuml Logo',
+        src: '/img/logo1.png',
+      },
+      items: [
+        {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
+          label: '文档',
         },
-        items: [
-          {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: '文档',
-          },
-          {
-            href: 'https://github.com/xYuan20d/xYuan20d.github.io',
-            label: 'GitHub',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: '文档',
-            items: [
-              {
-                label: '快速开始',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: '更多',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/xYuan20d/xYuan20d.github.io',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} YuanYuan. Built with Docusaurus.`,
-      },
-      prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
-      },
-    }),
+        {
+          // ✅ 同样改为源码地址
+          href: 'https://github.com/xYuan20d/Yuml',
+          label: 'GitHub',
+          position: 'right',
+        },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: '文档',
+          items: [
+            {
+              label: '快速开始',
+              to: '/docs/intro',
+            },
+          ],
+        },
+        {
+          title: '更多',
+          items: [
+            {
+              // ✅ 改为源码仓库
+              label: 'GitHub',
+              href: 'https://github.com/xYuan20d/Yuml',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} YuanYuan. Built with Docusaurus.`,
+    },
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+    },
+  }),
 };
 
 export default config;
