@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunky_doc=self.webpackChunky_doc||[]).push([[121],{8070:e=>{e.exports=JSON.parse('{"tags":[{"label":"\u5176\u4ed6","permalink":"/blog/tags/\u5176\u4ed6","count":1}]}')}}]);

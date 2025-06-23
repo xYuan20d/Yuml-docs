@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunky_doc=self.webpackChunky_doc||[]).push([[6388],{5649:l=>{l.exports=JSON.parse('{"tag":{"label":"Yuml","permalink":"/blog/tags/yuml","allTagsPath":"/blog/tags","count":1,"unlisted":false},"listMetadata":{"permalink":"/blog/tags/yuml","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
