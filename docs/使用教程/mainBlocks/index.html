@@ -11,8 +11,8 @@
 
 
 <script src="/js/particles.js" async defer="defer"></script><link rel="stylesheet" href="/assets/css/styles.595a135c.css">
-<script src="/assets/js/runtime~main.6d22a64b.js" defer="defer"></script>
-<script src="/assets/js/main.b1fdbdbf.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.c533e0f6.js" defer="defer"></script>
+<script src="/assets/js/main.a9bf6ce5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -34,7 +34,7 @@
 </ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="-cw控制器">🧩 <code>cw控制器</code><a href="#-cw控制器" class="hash-link" aria-label="-cw控制器的直接链接" title="-cw控制器的直接链接">​</a></h2>
-<p>在 Yuml 中，所有组件类元素（如按钮、输入框、标签等）并不由 <code>main_block</code> 直接处理，而是交由一个名为 <code>cw</code> 的内部控制器负责构建与管理。</p>
+<p>在 Yuml 中，所有组件类元素（如按钮、输入框、标签等）并不由 <code>main_block</code> 直接处理，而是交由一个名为 <code>cw控制器</code> 的内部控制器负责构建与管理。</p>
 <p><code>cw控制器</code>是 Yuml 框架的 <strong>组件调度中心</strong>，它：</p>
 <ul>
 <li>封装了常用组件的创建逻辑（如 <code>button</code>, <code>label</code>, <code>listBox</code>, <code>input</code> 等）；</li>
@@ -70,11 +70,12 @@
 <p>示例：</p>
 <div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token key atrule" style="color:#00a4db">\=myVar</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">123</span><span class="token plain">  </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">\&gt;result</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;1 + 2&quot;</span><span class="token plain">  </span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">$button1::move</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">[</span><span class="token number" style="color:#36acaa">100</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">100</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">]</span><br></span></code></pre></div></div>
 <hr>
+<div class="theme-admonition theme-admonition-note admonition_xJq3 alert alert--secondary"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>备注</div><div class="admonitionContent_BuS1"><p>YAML 标准语法不允许在同一作用域内定义多个同名元素。</p><p>为了解决这个限制，Yuml 提供了<strong>重复元素名的支持机制</strong>：</p><p>你可以通过在元素名后添加 <code>_任意数字</code> 的方式，实现多次使用相同的元素：</p><div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token key atrule" style="color:#00a4db">LOG</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">1</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">LOG_2</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">2</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">LOG_3</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">3</span><br></span></code></pre></div></div><p>它们将被视为同一种元素依次执行。</p></div></div>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="组件元素和普通元素"><code>组件元素</code>和<code>普通元素</code><a href="#组件元素和普通元素" class="hash-link" aria-label="组件元素和普通元素的直接链接" title="组件元素和普通元素的直接链接">​</a></h2>
 <p>Yuml 中的元素分为 <strong>组件元素</strong> 与 <strong>普通元素</strong>：</p>
 <ul>
 <li><strong>普通元素</strong> 是由 <code>main_block</code> 函数直接处理的块，如 <code>LOG</code>、<code>FOR</code>、<code>IF</code> 等。</li>
-<li><strong>组件元素</strong> 是 UI 组件中的子元素，统一由 <code>cw</code> 控制器托管。</li>
+<li><strong>组件元素</strong> 是 UI 组件中的子元素，统一由<code>cw控制器</code>托管。</li>
 </ul>
 <p>组件元素不能在组件外部块中使用，必须定义在如 <code>button</code>、<code>label</code> 等组件块内部。</p>
 <p>示例：</p>
