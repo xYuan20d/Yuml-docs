@@ -14,53 +14,86 @@
         <updated>2025-07-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Yuml 新版本引入了一项关键性的底层升级 ——]]></summary>
         <content type="html"><![CDATA[<p>Yuml 新版本引入了一项关键性的底层升级 ——<br>
-<!-- -->我们重新设计了解析执行的整个流程，<strong>告别重复渲染 + 全量加载的时代</strong>，正式迈入<strong>字节码 + 惰性加载的高性能阶段</strong>。</p>
+<!-- -->我们重新设计了解析执行的整个流程，<strong>告别重复渲染 + 全量加载的时代</strong>，正式迈入 <strong>字节码 + 惰性加载的高性能阶段</strong>。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="-问题回顾旧架构的瓶颈">🧠 问题回顾：旧架构的瓶颈<a href="https://xyuan20d.github.io/blog/updateYbc#-%E9%97%AE%E9%A2%98%E5%9B%9E%E9%A1%BE%E6%97%A7%E6%9E%B6%E6%9E%84%E7%9A%84%E7%93%B6%E9%A2%88" class="hash-link" aria-label="🧠 问题回顾：旧架构的瓶颈的直接链接" title="🧠 问题回顾：旧架构的瓶颈的直接链接">​</a></h2>
-<p>在旧版本中，Yuml 的启动流程如下：</p>
+<p>旧版本中，Yuml 的启动流程如下：</p>
 <ol>
 <li>读取原始 <code>.yaml</code> 文件；</li>
 <li>通过 <code>jinja2</code> 渲染模板逻辑；</li>
 <li>使用 <code>ruamel.yaml</code> 解析 YAML；</li>
-<li>将其转换为 <code>dict</code>，供解释器运行。</li>
+<li>转换为 <code>dict</code> 供解释器运行。</li>
 </ol>
-<p>虽然这种机制对小项目足够，但当 YAML 文件<strong>嵌套结构复杂、模块数量多时</strong>，以下问题显现：</p>
+<p>这种方式虽对小型项目足够，但当 YAML 文件嵌套结构复杂、模块众多时，问题显现：</p>
 <ul>
-<li>⏳ <strong>启动速度极慢</strong>：每次都重复执行 jinja2 + YAML 解析；</li>
-<li>💥 <strong>内存占用剧增</strong>：全量 dict 加载会一次性占用大量内存；</li>
-<li>🐌 <strong>性能与规模成反比</strong>：项目越大、越卡。</li>
+<li>⏳ <strong>启动缓慢</strong>：每次重复执行 jinja2 渲染和 YAML 解析；</li>
+<li>💥 <strong>内存激增</strong>：一次性加载整个字典结构；</li>
+<li>🐌 <strong>性能随项目规模劣化</strong>：越大越卡，越多越慢。</li>
 </ul>
-<p>于是，我们决定 —— <strong>动手重构运行核心</strong>。</p>
+<p>因此，我们决定彻底重构运行核心。</p>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="-新架构ybc-字节码系统上线">✨ 新架构：ybc 字节码系统上线！<a href="https://xyuan20d.github.io/blog/updateYbc#-%E6%96%B0%E6%9E%B6%E6%9E%84ybc-%E5%AD%97%E8%8A%82%E7%A0%81%E7%B3%BB%E7%BB%9F%E4%B8%8A%E7%BA%BF" class="hash-link" aria-label="✨ 新架构：ybc 字节码系统上线！的直接链接" title="✨ 新架构：ybc 字节码系统上线！的直接链接">​</a></h2>
-<p>我们设计了一种全新的运行机制：</p>
+<p>我们设计了一种全新机制：</p>
 <blockquote>
-<p><strong>将 YAML 编译为 SQLite 存储结构（ybc），按需访问执行内容。</strong></p>
+<p><strong>将 YAML 编译为 SQLite 存储结构（.ybc），运行时按需访问。</strong></p>
 </blockquote>
-<p>你可以把 <code>.ybc</code> 理解为一个 <strong>结构化的键值数据库 + 字节码容器</strong>，它具备以下特性：</p>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-编译机制一次编译多次运行">🔥 编译机制（一次编译，多次运行）<a href="https://xyuan20d.github.io/blog/updateYbc#-%E7%BC%96%E8%AF%91%E6%9C%BA%E5%88%B6%E4%B8%80%E6%AC%A1%E7%BC%96%E8%AF%91%E5%A4%9A%E6%AC%A1%E8%BF%90%E8%A1%8C" class="hash-link" aria-label="🔥 编译机制（一次编译，多次运行）的直接链接" title="🔥 编译机制（一次编译，多次运行）的直接链接">​</a></h3>
+<p><code>.ybc</code> 是一种结构化键值数据库 + 字节码容器，具备以下优势：</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-一次编译多次运行">🔥 一次编译，多次运行<a href="https://xyuan20d.github.io/blog/updateYbc#-%E4%B8%80%E6%AC%A1%E7%BC%96%E8%AF%91%E5%A4%9A%E6%AC%A1%E8%BF%90%E8%A1%8C" class="hash-link" aria-label="🔥 一次编译，多次运行的直接链接" title="🔥 一次编译，多次运行的直接链接">​</a></h3>
 <ul>
-<li>首次构建时，将 <code>.yaml</code> 编译为 <code>.ybc</code> 文件；</li>
-<li>编译过程中，完成模板渲染 + AST 提取 + SQLite 写入；</li>
-<li>运行时，Yuml 直接读取 <code>.ybc</code>，<strong>不再解析 YAML 原文</strong>。</li>
+<li>初次构建时，<code>.yaml</code> 被编译为 <code>.ybc</code>；</li>
+<li>编译流程完成模板渲染、AST 抽取、结构写入 SQLite；</li>
+<li>运行阶段直接读取 <code>.ybc</code>，<strong>无需再解析原始 YAML</strong>。</li>
 </ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="️-惰性加载用多少读多少">❄️ 惰性加载（用多少，读多少）<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E6%83%B0%E6%80%A7%E5%8A%A0%E8%BD%BD%E7%94%A8%E5%A4%9A%E5%B0%91%E8%AF%BB%E5%A4%9A%E5%B0%91" class="hash-link" aria-label="❄️ 惰性加载（用多少，读多少）的直接链接" title="❄️ 惰性加载（用多少，读多少）的直接链接">​</a></h3>
-<p>旧版会将整个 dict 一次性加载至内存，新版改为：</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="️-惰性加载只加载被用到的内容">❄️ 惰性加载：只加载被用到的内容<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E6%83%B0%E6%80%A7%E5%8A%A0%E8%BD%BD%E5%8F%AA%E5%8A%A0%E8%BD%BD%E8%A2%AB%E7%94%A8%E5%88%B0%E7%9A%84%E5%86%85%E5%AE%B9" class="hash-link" aria-label="❄️ 惰性加载：只加载被用到的内容的直接链接" title="❄️ 惰性加载：只加载被用到的内容的直接链接">​</a></h3>
+<p>旧版加载整个 dict，新版则：</p>
 <blockquote>
-<p><strong>运行时只读取你访问的那个键值，而非整棵树。</strong></p>
+<p><strong>运行时仅加载访问到的键，而非整棵 YAML 树。</strong></p>
 </blockquote>
-<p>这得益于 SQLite 的键值查找能力，我们可以做到：</p>
+<p>实测（4.6 万行、无模板）：</p>
+<table><thead><tr><th>格式</th><th>启动时间</th><th>内存占用</th></tr></thead><tbody><tr><td>YAML</td><td>3.2 秒</td><td>186 MB</td></tr><tr><td>YBC</td><td>0.04 秒</td><td>90 MB</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="️-jit-模板引擎字符串渲染性能突破">⚙️ JIT 模板引擎：字符串渲染性能突破<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-jit-%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E7%AA%81%E7%A0%B4" class="hash-link" aria-label="⚙️ JIT 模板引擎：字符串渲染性能突破的直接链接" title="⚙️ JIT 模板引擎：字符串渲染性能突破的直接链接">​</a></h2>
+<p>模板字符串（如 <code>{&lt; time.time() &gt;}</code>）是 Yuml 的核心语法。旧版本每次渲染：</p>
+<ol>
+<li>正则拆分表达式；</li>
+<li><code>eval</code> 执行；</li>
+<li>拼接渲染输出。</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-问题">🌀 问题：<a href="https://xyuan20d.github.io/blog/updateYbc#-%E9%97%AE%E9%A2%98" class="hash-link" aria-label="🌀 问题：的直接链接" title="🌀 问题：的直接链接">​</a></h3>
+<p>在循环中反复渲染模板（如 <code>range(100000)</code>）会产生大量重复解析和执行，浪费性能。</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-新方案表达式级-jit-缓存">🚀 新方案：表达式级 JIT 缓存<a href="https://xyuan20d.github.io/blog/updateYbc#-%E6%96%B0%E6%96%B9%E6%A1%88%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%BA%A7-jit-%E7%BC%93%E5%AD%98" class="hash-link" aria-label="🚀 新方案：表达式级 JIT 缓存的直接链接" title="🚀 新方案：表达式级 JIT 缓存的直接链接">​</a></h3>
+<p>新版本内置智能模板缓存引擎，可自动识别 <strong>高频表达式</strong> 并编译为 <code>lambda</code> 函数：</p>
 <ul>
-<li>只加载需要的分支；</li>
-<li><strong>动态、低成本地解析执行逻辑</strong>；</li>
-<li>大幅节省内存（实测内存占用下降 80%+）；</li>
+<li>📌 第一次出现：常规解析；</li>
+<li>📌 出现 ≥3 次：标记为热点表达式；</li>
+<li>📌 后续使用：复用已编译 lambda，跳过正则与 eval；</li>
 </ul>
+<p>这就是 Yuml 的 <strong>表达式级 JIT 编译</strong>。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="️-缓存表达式而非结果">⚠️ 缓存“表达式”，而非“结果”！<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E7%BC%93%E5%AD%98%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%80%8C%E9%9D%9E%E7%BB%93%E6%9E%9C" class="hash-link" aria-label="⚠️ 缓存“表达式”，而非“结果”！的直接链接" title="⚠️ 缓存“表达式”，而非“结果”！的直接链接">​</a></h3>
+<p>我们只缓存表达式的可执行函数，不缓存其值：</p>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain">&lt; time.time() </span><span class="token punctuation" style="color:#393A34">&gt;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain">  </span><span class="token comment" style="color:#999988;font-style:italic"># 每次结果不同，不能缓存结果，只能缓存 lambda</span><br></span></code></pre></div></div>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="-示例对比旧-vs-新">🧪 示例对比：旧 vs 新<a href="https://xyuan20d.github.io/blog/updateYbc#-%E7%A4%BA%E4%BE%8B%E5%AF%B9%E6%AF%94%E6%97%A7-vs-%E6%96%B0" class="hash-link" aria-label="🧪 示例对比：旧 vs 新的直接链接" title="🧪 示例对比：旧 vs 新的直接链接">​</a></h2>
-<table><thead><tr><th>项目</th><th>YAML 行数</th><th>启动时间（旧）</th><th>启动时间（新）</th><th>内存占用</th></tr></thead><tbody><tr><td>小项目</td><td>300 行</td><td>200ms</td><td>60ms</td><td>30MB → 10MB</td></tr><tr><td>中型项目</td><td>2000 行</td><td>1.4s</td><td>0.4s</td><td>120MB → 25MB</td></tr><tr><td>超大项目</td><td>&gt;1w 行</td><td>无法启动💥</td><td>1.1s</td><td>❌ → 40MB</td></tr></tbody></table>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token key atrule" style="color:#00a4db">run</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">$app::comImportPackage</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"from time import perf_counter"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"perf_counter"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">\&gt;start_time</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> perf_counter()</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">FOR</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">ITER</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> range(100000)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">CODE</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token key atrule" style="color:#00a4db">CALL_BLOCK</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"{&lt; 'test' &gt;}"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">"{&lt; 1+1 &gt;} :int"</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">LOG</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"{&lt; perf_counter() - start_time &gt;}"</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">test</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<table><thead><tr><th>模式</th><th>总耗时</th></tr></thead><tbody><tr><td>旧版</td><td>1.53s</td></tr><tr><td>新版（含 JIT）</td><td><strong>1.34s</strong> ✔️</td></tr></tbody></table>
+<p>模板调用越频繁，提速越明显！</p>
 <hr>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="️-双模式支持开发--部署都方便">🛠️ 双模式支持：开发 &amp; 部署都方便<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E5%8F%8C%E6%A8%A1%E5%BC%8F%E6%94%AF%E6%8C%81%E5%BC%80%E5%8F%91--%E9%83%A8%E7%BD%B2%E9%83%BD%E6%96%B9%E4%BE%BF" class="hash-link" aria-label="🛠️ 双模式支持：开发 &amp; 部署都方便的直接链接" title="🛠️ 双模式支持：开发 &amp; 部署都方便的直接链接">​</a></h2>
-<p>为了兼顾开发体验与部署性能，新版本保留两种运行方式：</p>
-<table><thead><tr><th>模式</th><th>描述</th><th>推荐用途</th></tr></thead><tbody><tr><td><code>.yaml</code> 直跑</td><td>保留解释器动态性</td><td>快速调试、开发阶段</td></tr><tr><td><code>.ybc</code> 编译运行</td><td>结构化 + 惰性</td><td>部署上线、追求性能场景</td></tr></tbody></table>]]></content>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="️-双模式支持开发--部署无缝切换">🛠️ 双模式支持：开发 &amp; 部署无缝切换<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E5%8F%8C%E6%A8%A1%E5%BC%8F%E6%94%AF%E6%8C%81%E5%BC%80%E5%8F%91--%E9%83%A8%E7%BD%B2%E6%97%A0%E7%BC%9D%E5%88%87%E6%8D%A2" class="hash-link" aria-label="🛠️ 双模式支持：开发 &amp; 部署无缝切换的直接链接" title="🛠️ 双模式支持：开发 &amp; 部署无缝切换的直接链接">​</a></h2>
+<p>新架构保留双模式，兼顾灵活与性能：</p>
+<table><thead><tr><th>模式</th><th>描述</th><th>适用场景</th></tr></thead><tbody><tr><td><code>.yaml</code> 直跑</td><td>动态解析，易调试</td><td>本地开发、快速迭代</td></tr><tr><td><code>.ybc</code> 编译执行</td><td>惰性 + 缓存</td><td>正式部署、性能敏感</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="-总结">🎯 总结<a href="https://xyuan20d.github.io/blog/updateYbc#-%E6%80%BB%E7%BB%93" class="hash-link" aria-label="🎯 总结的直接链接" title="🎯 总结的直接链接">​</a></h2>
+<p>Yuml 新架构具备：</p>
+<ul>
+<li>✅ <strong>字节码级虚拟执行系统</strong></li>
+<li>⚡ <strong>表达式级 JIT 缓存机制</strong></li>
+<li>🧊 <strong>惰性内存调度引擎</strong></li>
+<li>🧬 <strong>完整动态语言支持</strong></li>
+</ul>
+<blockquote>
+<p>我们没有牺牲动态性，而是用工程能力守护它。<br>
+<!-- -->新架构，让 Yuml 更快、更轻、更强。</p>
+</blockquote>]]></content>
         <author>
             <name>YuanYuan</name>
             <uri>https://github.com/xYuan20d</uri>
