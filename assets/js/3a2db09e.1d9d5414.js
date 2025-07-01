@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunky_doc=self.webpackChunky_doc||[]).push([[8121],{8070:l=>{l.exports=JSON.parse('{"tags":[{"label":"Yuml","permalink":"/blog/tags/Yuml","description":"\u6b22\u8fce\u6765\u5230Yuml\u6807\u7b7e","count":1},{"label":"Hello","permalink":"/blog/tags/hello","description":"Hello tag description","count":1}]}')}}]);
