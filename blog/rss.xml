@@ -61,9 +61,7 @@
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="️-双模式支持开发--部署都方便">🛠️ 双模式支持：开发 &amp; 部署都方便<a href="https://xyuan20d.github.io/blog/updateYbc#%EF%B8%8F-%E5%8F%8C%E6%A8%A1%E5%BC%8F%E6%94%AF%E6%8C%81%E5%BC%80%E5%8F%91--%E9%83%A8%E7%BD%B2%E9%83%BD%E6%96%B9%E4%BE%BF" class="hash-link" aria-label="🛠️ 双模式支持：开发 &amp; 部署都方便的直接链接" title="🛠️ 双模式支持：开发 &amp; 部署都方便的直接链接">​</a></h2>
 <p>为了兼顾开发体验与部署性能，新版本保留两种运行方式：</p>
-<table><thead><tr><th>模式</th><th>描述</th><th>推荐用途</th></tr></thead><tbody><tr><td><code>.yaml</code> 直跑</td><td>保留解释器动态性</td><td>快速调试、开发阶段</td></tr><tr><td><code>.ybc</code> 编译运行</td><td>结构化 + 惰性</td><td>部署上线、追求性能场景</td></tr></tbody></table>
-<p>配套命令行（CLI）也提供完整支持：</p>
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain"># 编译 YAML 为字节码</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">yuml compile ./main.yaml</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"># 运行字节码（无需 YAML 源文件）</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">yuml run ./main.ybc</span><br></span></code></pre></div></div>]]></content:encoded>
+<table><thead><tr><th>模式</th><th>描述</th><th>推荐用途</th></tr></thead><tbody><tr><td><code>.yaml</code> 直跑</td><td>保留解释器动态性</td><td>快速调试、开发阶段</td></tr><tr><td><code>.ybc</code> 编译运行</td><td>结构化 + 惰性</td><td>部署上线、追求性能场景</td></tr></tbody></table>]]></content:encoded>
             <category>Yuml</category>
         </item>
         <item>
